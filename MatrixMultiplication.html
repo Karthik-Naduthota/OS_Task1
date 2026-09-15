@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Multiplication Animation</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        h1 {
+            margin-top: 25px;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        #board {
+            width: 500px;
+            height: 500px;
+            margin: 25px auto;
+            display: grid;
+            grid-template-columns: repeat(100, 1fr);
+            border: 2px solid black;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .working {
+            background: orange;
+        }
+
+        .finished {
+            background: green;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background: black;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>100 × 100 Matrix Multiplication</h1>
+
+    <div class="info">
+        Completed: <span id="count">0</span> / 10000
+    </div>
+
+    <div class="info">
+        Current Row: <span id="row">-</span>
+    </div>
+
+    <button onclick="begin()">Start Animation</button>
+
+    <div id="board"></div>
+
+    <script>
+
+        const board = document.getElementById("board");
+        const total = 10000;
+
+        let completed = 0;
+        let position = 0;
+
+        for (let i = 0; i < total; i++) {
+
+            let box = document.createElement("div");
+
+            box.className = "box";
+            box.id = "box" + i;
+
+            board.appendChild(box);
+        }
+
+        function begin() {
+
+            completed = 0;
+            position = 0;
+
+            document.getElementById("count").innerText = "0";
+
+            animate();
+        }
+
+        function animate() {
+
+            if (position >= total) {
+                return;
+            }
+
+            let current = document.getElementById(
+                "box" + position
+            );
+
+            current.classList.add("working");
+
+            let currentRow = Math.floor(position / 100);
+
+            document.getElementById("row").innerText =
+                currentRow + 1;
+
+            setTimeout(function () {
+
+                current.classList.remove("working");
+                current.classList.add("finished");
+
+                completed++;
+
+                document.getElementById("count").innerText =
+                    completed;
+
+                position++;
+
+                animate();
+
+            }, 10);
+        }
+
+    </script>
+
+</body>
+</html>
